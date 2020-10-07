@@ -1,24 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import useCount from './hooks/useCount';
+import useFetch from './hooks/useFetch';
+import useOrderCountHook from './hooks/useOrderCountHook';
+import UseFetchExample from './components/UseFetchExample';
+
 
 function App() {
+  const orderHook = useOrderCountHook();
+  const { count, increment, decrement, increaseBy, decreaseBy } = useCount();
+  const { data, error, isLoading } = useFetch('https://jsonplaceholder.typicode.com/posts');
+  console.log(data, error, isLoading)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>count:{orderHook.orderCount.count}</h1>
+      <button type='button' onClick={orderHook.changeOrderCount}>Increment</button>
+      <div>{count}</div>
+      <button onClick={increment}>increment</button>
+      <button onClick={decrement}>decrement</button>
+      <button onClick={() => increaseBy(20)}>increase by 20</button>
+      <button onClick={() => decreaseBy(20)}>decrease by 20</button>
+      <UseFetchExample />
     </div>
   );
 }
